@@ -1,0 +1,61 @@
+{
+  "version": "1.2",
+  "updated": "2026-03-06",
+  "indexes": [
+    {
+      "keywords": ["沃伦巴菲虾", "沃伦·巴菲虾", "龙虾", "lobster", "养殖"],
+      "files": ["memory/warren_buffet_shrimp_context.md"],
+      "description": "沃伦·巴菲虾龙虾养殖项目",
+      "priority": "high"
+    },
+    {
+      "keywords": ["老铁", "李铁铮", "CEO", "商业助手", "日常助手"],
+      "files": ["memory/warren_buffet_shrimp_context.md", "USER.md"],
+      "description": "用户信息和项目角色分工",
+      "priority": "high"
+    },
+    {
+      "keywords": ["小爪", "AI 助手", "助手"],
+      "files": ["memory/warren_buffet_shrimp_context.md", "SOUL.md"],
+      "description": "AI 助手身份和定位",
+      "priority": "medium"
+    },
+    {
+      "keywords": ["记忆", "memory", "文件记忆", "持久化"],
+      "files": ["MEMORY.md", "AGENTS.md"],
+      "description": "记忆系统设计和规则",
+      "priority": "medium"
+    },
+    {
+      "keywords": ["页面设计", "科技感", "赛博朋克", "时间轴", "网页"],
+      "files": ["memory/warren_buffet_shrimp_context.md", "warren-shrimp-timeline.html"],
+      "description": "沃伦巴菲虾页面设计和时间轴",
+      "priority": "medium"
+    },
+    {
+      "keywords": ["GitHub", "token", "部署", "推送", "ghp_"],
+      "files": ["memory/warren_buffet_shrimp_context.md", ".github_token"],
+      "description": "GitHub Token 和部署配置",
+      "priority": "high"
+    },
+    {
+      "keywords": ["lobster-resume", "GitHub Pages", "网站"],
+      "files": ["memory/warren_buffet_shrimp_context.md"],
+      "description": "GitHub Pages 网站部署",
+      "priority": "high"
+    }
+  ],
+  "autoLoadRules": {
+    "sessionStart": ["MEMORY.md", "SOUL.md", "USER.md", "memory/index.json"],
+    "mainSession": ["MEMORY.md"],
+    "keywordMatch": "loadRelatedFiles"
+  },
+  "secrets": {
+    "github_token": {
+      "path": ".github_token",
+      "note": "GitHub Personal Access Token for lobster-resume repo push",
+      "created": "2026-03-06",
+      "warning": "Do not commit this file to git"
+    }
+  }
+}

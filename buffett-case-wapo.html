@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>巴菲特案例：华盛顿邮报 | 沃伦·巴菲虾</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: rgba(20, 20, 35, 0.6);
+            --neon-blue: #00f0ff;
+            --neon-purple: #bc13fe;
+            --neon-green: #0aff0a;
+            --neon-orange: #ff6b00;
+            --neon-red: #ff003c;
+            --text-primary: #ffffff;
+            --text-secondary: #8b9bb4;
+        }
+
+        body {
+            font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.7;
+        }
+
+        /* 动态网格背景 */
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+            animation: gridPulse 20s infinite;
+        }
+
+        @keyframes gridPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* 导航 */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 15, 0.8);
+            border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-left: 30px;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-blue);
+        }
+
+        /* 主容器 */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 120px 20px 60px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 头部 */
+        .case-header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .case-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(188, 19, 254, 0.15);
+            border: 1px solid var(--neon-purple);
+            border-radius: 30px;
+            font-size: 0.9rem;
+            color: var(--neon-purple);
+            margin-bottom: 20px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .case-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .case-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        /* 卡片样式 */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 240, 255, 0.1);
+            border-color: rgba(0, 240, 255, 0.3);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--neon-blue);
+        }
+
+        .card-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(180deg, var(--neon-blue), var(--neon-purple));
+            border-radius: 2px;
+        }
+
+        /* 数据网格 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            background: rgba(0, 240, 255, 0.05);
+            border: 1px solid rgba(0, 240, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--neon-blue);
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* 列表样式 */
+        .insight-list {
+            list-style: none;
+        }
+
+        .insight-list li {
+            padding: 15px 0;
+            padding-left: 35px;
+            position: relative;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .insight-list li:last-child {
+            border-bottom: none;
+        }
+
+        .insight-list li::before {
+            content: '✅';
+            position: absolute;
+            left: 0;
+            top: 15px;
+        }
+
+        /* 引用样式 */
+        .quote {
+            background: rgba(188, 19, 254, 0.08);
+            border-left: 4px solid var(--neon-purple);
+            padding: 25px 30px;
+            margin: 30px 0;
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+            color: var(--text-secondary);
+            position: relative;
+        }
+
+        .quote::before {
+            content: '"';
+            font-size: 4rem;
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            color: var(--neon-purple);
+            opacity: 0.3;
+            font-family: Georgia, serif;
+        }
+
+        /* 时间轴 */
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+            margin: 30px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--neon-blue), var(--neon-purple));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding-left: 20px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -34px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            border: 3px solid var(--bg-dark);
+        }
+
+        .timeline-year {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--neon-orange);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .timeline-content {
+            color: var(--text-secondary);
+        }
+
+        /* 巴菲虾联想 */
+        .shrimp-connection {
+            background: linear-gradient(135deg, rgba(255, 107, 0, 0.08), rgba(188, 19, 254, 0.08));
+            border: 1px solid rgba(255, 107, 0, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+        }
+
+        .shrimp-connection .card-title {
+            color: var(--neon-orange);
+        }
+
+        .shrimp-connection .card-title::before {
+            background: linear-gradient(180deg, var(--neon-orange), var(--neon-purple));
+        }
+
+        /* 动画 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+
+        /* 返回按钮 */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            transition: all 0.3s;
+            margin-bottom: 30px;
+        }
+
+        .back-btn:hover {
+            border-color: var(--neon-blue);
+            color: var(--neon-blue);
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .case-title {
+                font-size: 2rem;
+            }
+            
+            .nav {
+                padding: 15px 20px;
+            }
+            
+            .container {
+                padding-top: 100px;
+            }
+            
+            .card {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 动态网格背景 -->
+    <div class="grid-bg"></div>
+
+    <!-- 导航 -->
+    <nav class="nav">
+        <a href="index.html" class="nav-logo">🦞 沃伦·巴菲虾</a>
+        <div class="nav-links">
+            <a href="index.html">时间轴</a>
+            <a href="buffett-case-wapo.html">华盛顿邮报</a>
+        </div>
+    </nav>
+
+    <!-- 主容器 -->
+    <div class="container">
+        <!-- 返回按钮 -->
+        <a href="index.html" class="back-btn">
+            ← 返回时间轴
+        </a>
+
+        <!-- 头部 -->
+        <header class="case-header">
+            <span class="case-badge">📚 巴菲特经典案例 #3</span>
+            <h1 class="case-title">华盛顿邮报</h1>
+            <p class="case-subtitle">The Washington Post · 1973</p>
+        </header>
+
+        <!-- 案例概况 -->
+        <div class="card">
+            <h2 class="card-title">📊 案例概况</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value">1973</div>
+                    <div class="stat-label">投资年份</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">$11M</div>
+                    <div class="stat-label">投资金额</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">$5.63</div>
+                    <div class="stat-label">平均成本/股</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">$1B+</div>
+                    <div class="stat-label">峰值价值</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 投资逻辑 -->
+        <div class="card">
+            <h2 class="card-title">🎯 投资逻辑</h2>
+            <ul class="insight-list">
+                <li><strong>垄断地位</strong> — 华盛顿地区主要报纸，近乎垄断的市场地位</li>
+                <li><strong>优秀管理层</strong> — 凯瑟琳·格雷厄姆（Katharine Graham）诚信且能干，巴菲特高度信任</li>
+                <li><strong>估值极低</strong> — 市盈率不到 10 倍，市值低于内在价值，安全边际充足</li>
+                <li><strong>行业特性</strong> — 报纸行业高固定成本但边际成本低，规模效应明显</li>
+            </ul>
+        </div>
+
+        <!-- 时间轴 -->
+        <div class="card">
+            <h2 class="card-title">⏳ 投资时间轴</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">1973 年</div>
+                    <div class="timeline-content">巴菲特开始买入华盛顿邮报股票，当时公司因越战和水门事件报道面临政治压力，股价被低估</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">1974 年</div>
+                    <div class="timeline-content">继续增持，成为公司最大外部股东，与凯瑟琳·格雷厄姆建立深厚信任关系</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">1980-2000 年代</div>
+                    <div class="timeline-content">长期持有，见证公司成长为美国最具影响力的媒体之一</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2013 年</div>
+                    <div class="timeline-content">贝索斯收购华盛顿邮报，伯克希尔退出，40 年投资回报超 100 倍</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 关键启示 -->
+        <div class="card">
+            <h2 class="card-title">💡 关键启示</h2>
+            <ul class="insight-list">
+                <li><strong>好价格买好公司（安全边际）</strong> — 即使是最优秀的公司，也要在价格合理时买入</li>
+                <li><strong>管理层品质至关重要</strong> — 巴菲特与凯瑟琳的友谊持续数十年，信任是长期持有的基础</li>
+                <li><strong>垄断/寡头地位是强大护城河</strong> — 地区性垄断让华盛顿邮报拥有定价权和稳定现金流</li>
+                <li><strong>长期持有才能享受复利</strong> — 40 年的持有期让复利效应充分发挥，100 倍回报来自时间</li>
+            </ul>
+            
+            <div class="quote">
+                投资华盛顿邮报教会我们：当优秀管理层遇到低估的价格，长期持有会带来惊人回报。
+            </div>
+        </div>
+
+        <!-- 巴菲虾联想 -->
+        <div class="shrimp-connection">
+            <h2 class="card-title">🦞 巴菲虾联想</h2>
+            <p style="color: var(--text-secondary); line-height: 1.8;">
+                <strong>养殖启示：</strong> 就像巴菲特在"好价格"时买入"好公司"，养虾也要在虾苗优质且价格合理时入手。凯瑟琳·格雷厄姆的诚信管理如同精心照料虾池——每天的水质监测、温度控制、喂食计划，看似琐碎但决定长期成败。
+            </p>
+            <p style="color: var(--text-secondary); line-height: 1.8; margin-top: 15px;">
+                <strong>创业启示：</strong> 华盛顿邮报的地区垄断地位提醒我们，在细分市场建立"护城河"比盲目扩张更重要。与其做 100 个平庸的功能，不如把 1 个核心功能做到极致，让用户离不开。
+            </p>
+            <p style="color: var(--text-secondary); line-height: 1.8; margin-top: 15px;">
+                <strong>个人成长：</strong> 40 年持有期的复利效应告诉我们，真正的成长来自持续积累。每天学习一个巴菲特案例，就像每天给虾池换水——单次效果不明显，但一年后的差异天壤之别。
+            </p>
+        </div>
+
+        <!-- 底部 -->
+        <div style="text-align: center; margin-top: 60px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1);">
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                🦞 沃伦·巴菲虾 · 每天学习一个巴菲特投资案例
+            </p>
+            <p style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 10px;">
+                Day 4 · 2026-03-08
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // 粒子效果
+        function createParticles() {
+            const particlesContainer = document.createElement('div');
+            particlesContainer.className = 'particles';
+            particlesContainer.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;';
+            
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.cssText = `
+                    position: absolute;
+                    width: ${Math.random() * 4 + 2}px;
+                    height: ${Math.random() * 4 + 2}px;
+                    background: ${Math.random() > 0.5 ? 'var(--neon-blue)' : 'var(--neon-purple)'};
+                    border-radius: 50%;
+                    opacity: ${Math.random() * 0.5 + 0.2};
+                    left: ${Math.random() * 100}%;
+                    top: ${Math.random() * 100}%;
+                    animation: float ${Math.random() * 10 + 10}s infinite;
+                    animation-delay: ${Math.random() * 5}s;
+                `;
+                particlesContainer.appendChild(particle);
+            }
+            
+            document.body.appendChild(particlesContainer);
+        }
+        
+        createParticles();
+    </script>
+</body>
+</html>

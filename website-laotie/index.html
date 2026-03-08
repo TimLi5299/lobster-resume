@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>老铁的 AI 实验室 | laotie.ai</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #0a0a0f;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 头部 */
+        header {
+            padding: 60px 0 40px;
+            text-align: center;
+            border-bottom: 1px solid #1a1a2e;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            color: #8888aa;
+            font-size: 1.1rem;
+        }
+
+        header .domain {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 5px 15px;
+            background: #1a1a2e;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #667eea;
+        }
+
+        /* 筛选器 */
+        .filters {
+            padding: 30px 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 10px 25px;
+            background: transparent;
+            border: 1px solid #333355;
+            color: #8888aa;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            border-color: #667eea;
+            color: #ffffff;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            border-color: #667eea;
+            color: #ffffff;
+        }
+
+        /* 作品网格 */
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            padding: 40px 0;
+        }
+
+        .work-card {
+            background: #12121a;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .work-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.2);
+        }
+
+        .work-cover {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            background: #1a1a2e;
+        }
+
+        .work-info {
+            padding: 20px;
+        }
+
+        .work-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .work-date {
+            color: #667eea;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+
+        .work-desc {
+            color: #8888aa;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .work-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .tag {
+            padding: 4px 12px;
+            background: #1a1a2e;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            color: #8888aa;
+        }
+
+        .tag.ai-tool {
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+        }
+
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid #1a1a2e;
+            color: #666688;
+        }
+
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .works-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 40px 20px;
+        }
+
+        .modal.active {
+            display: block;
+        }
+
+        .modal-content {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #12121a;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .modal-cover {
+            width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+            background: #0a0a0f;
+        }
+
+        .modal-info {
+            padding: 30px;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .modal-date {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .modal-desc {
+            color: #ccccdd;
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+
+        .modal-close {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            font-size: 2rem;
+            color: #ffffff;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .modal-close:hover {
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🧪 老铁的 AI 实验室</h1>
+            <p>探索 AI 创作的无限可能</p>
+            <span class="domain">laotie.ai</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="filters" id="filters">
+            <button class="filter-btn active" data-filter="all">全部</button>
+            <button class="filter-btn" data-filter="AI 绘画">AI 绘画</button>
+            <button class="filter-btn" data-filter="AI 写作">AI 写作</button>
+            <button class="filter-btn" data-filter="AI 视频">AI 视频</button>
+            <button class="filter-btn" data-filter="AI 音乐">AI 音乐</button>
+            <button class="filter-btn" data-filter="数据分析">数据分析</button>
+            <button class="filter-btn" data-filter="其他">其他</button>
+        </div>
+
+        <div class="works-grid" id="worksGrid"></div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 老铁的 AI 实验室 | Powered by AI & curiosity</p>
+        </div>
+    </footer>
+
+    <!-- 作品详情模态框 -->
+    <div class="modal" id="workModal">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+            <img class="modal-cover" id="modalCover" src="" alt="">
+            <div class="modal-info">
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <p class="modal-date" id="modalDate"></p>
+                <div class="work-tags" id="modalTags"></div>
+                <p class="modal-desc" id="modalDesc" style="margin-top: 20px;"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="works.js"></script>
+    <script>
+        const worksGrid = document.getElementById('worksGrid');
+        const filters = document.getElementById('filters');
+        const modal = document.getElementById('workModal');
+
+        // 渲染作品
+        function renderWorks(filter = 'all') {
+            worksGrid.innerHTML = '';
+            
+            const filteredWorks = filter === 'all' 
+                ? works 
+                : works.filter(w => w.type === filter);
+
+            filteredWorks.forEach(work => {
+                const card = document.createElement('div');
+                card.className = 'work-card';
+                card.onclick = () => openModal(work);
+
+                const tagsHtml = [
+                    ...(work.aiTools || []).map(t => `<span class="tag ai-tool">${t}</span>`),
+                    ...(work.tags || []).map(t => `<span class="tag">${t}</span>`)
+                ].join('');
+
+                card.innerHTML = `
+                    <img class="work-cover" src="${work.cover || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22220%22%3E%3Crect fill=%22%231a1a2e%22 width=%22320%22 height=%22220%22/%3E%3Ctext fill=%22%23667eea%22 font-family=%22sans-serif%22 font-size=%2220%22 x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22%3E无封面%3C/text%3E%3C/svg%3E'}" alt="${work.title}">
+                    <div class="work-info">
+                        <h3 class="work-title">${work.title}</h3>
+                        <p class="work-date">📅 ${work.date}</p>
+                        <p class="work-desc">${work.description || ''}</p>
+                        <div class="work-tags">${tagsHtml}</div>
+                    </div>
+                `;
+
+                worksGrid.appendChild(card);
+            });
+        }
+
+        // 筛选功能
+        filters.addEventListener('click', (e) => {
+            if (e.target.classList.contains('filter-btn')) {
+                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                renderWorks(e.target.dataset.filter);
+            }
+        });
+
+        // 模态框
+        function openModal(work) {
+            document.getElementById('modalCover').src = work.cover || '';
+            document.getElementById('modalTitle').textContent = work.title;
+            document.getElementById('modalDate').textContent = `📅 ${work.date} · ${work.type}`;
+            document.getElementById('modalDesc').textContent = work.description || '';
+            
+            const tagsHtml = [
+                ...(work.aiTools || []).map(t => `<span class="tag ai-tool">${t}</span>`),
+                ...(work.tags || []).map(t => `<span class="tag">${t}</span>`)
+            ].join('');
+            document.getElementById('modalTags').innerHTML = tagsHtml;
+
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // 初始化
+        renderWorks();
+    </script>
+</body>
+</html>

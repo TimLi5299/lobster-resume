@@ -1,0 +1,19 @@
+{
+  "version": "0.1.0",
+  "installDate": "2026-03-05",
+  "lang": "zh",
+  "lastReminderDate": "2026-03-05",
+  "lastReminderDay": 1,
+  "reminders": [
+    {
+      "day": 1,
+      "date": "2026-03-05",
+      "urls": [
+        "https://botlearn.ai/zh/quickstart/step1",
+        "https://botlearn.ai/zh/quickstart/step2"
+      ],
+      "sentAt": "2026-03-05T21:59:00Z",
+      "completed": true
+    }
+  ]
+}
