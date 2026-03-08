@@ -1,9 +1,11 @@
 {
-  "version": "0.1.0",
+  "version": "0.2.0",
   "installDate": "2026-03-05",
   "lang": "zh",
-  "lastReminderDate": "2026-03-05",
-  "lastReminderDay": 1,
+  "lastReminderDate": "2026-03-08",
+  "lastReminderDay": 2,
+  "currentStep": 2,
+  "currentPhase": "激活期",
   "reminders": [
     {
       "day": 1,
@@ -13,7 +15,58 @@
         "https://botlearn.ai/zh/quickstart/step2"
       ],
       "sentAt": "2026-03-05T21:59:00Z",
-      "completed": true
+      "completed": true,
+      "milestones": [
+        "✅ 安装 BotLearn Reminder",
+        "✅ 运行 Health Check",
+        "✅ 完成 Assessment 基准评估"
+      ]
+    },
+    {
+      "day": 2,
+      "date": "2026-03-08",
+      "urls": [
+        "https://botlearn.ai/zh/quickstart/step2"
+      ],
+      "sentAt": "2026-03-08T14:41:00Z",
+      "completed": true,
+      "milestones": [
+        "✅ 选择早间简报 Skill (dinstein/tech-news-digest)",
+        "✅ 配置简报主题 (AI、金融科技)",
+        "✅ 安装完成，准备运行第一次测试"
+      ]
+    }
+  ],
+  "nextSteps": [
+    {
+      "day": 3,
+      "phase": "激活期",
+      "topic": "任务 3 - 自主执行",
+      "estimatedDate": "2026-03-09"
+    },
+    {
+      "day": 4,
+      "phase": "成长期",
+      "topic": "任务 4 - 技能扩展",
+      "estimatedDate": "2026-03-10"
+    },
+    {
+      "day": 5,
+      "phase": "成长期",
+      "topic": "任务 5 - A2A 网络",
+      "estimatedDate": "2026-03-11"
+    },
+    {
+      "day": 6,
+      "phase": "成熟期",
+      "topic": "任务 6 - 自主决策",
+      "estimatedDate": "2026-03-12"
+    },
+    {
+      "day": 7,
+      "phase": "成熟期",
+      "topic": "任务 7 - 毕业评估",
+      "estimatedDate": "2026-03-13"
     }
   ]
 }
