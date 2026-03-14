@@ -34,7 +34,9 @@
       background-image: 
         radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.15), transparent 25%),
         radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.15), transparent 25%);
-      overflow: hidden;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 40px 20px;
     }
 
     /* Animated background elements */
@@ -76,13 +78,14 @@
       border-radius: 24px;
       padding: 40px;
       width: 100%;
-      max-width: 480px; /* Slightly widened to fit new content nicely */
+      max-width: 520px; /* Widened slightly more for the new timeline content */
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
       transform: translateY(20px);
       opacity: 0;
       animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       position: relative;
       overflow: hidden;
+      margin: auto;
     }
 
     /* Subtle top highlight */
@@ -174,6 +177,18 @@
       border: 1px solid rgba(168, 85, 247, 0.3);
     }
 
+    .hobby-badge {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .travel-badge {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
     .section-title {
       font-size: 0.875rem;
       text-transform: uppercase;
@@ -222,6 +237,59 @@
       font-size: 1.1rem;
     }
 
+    /* Timeline styling for journey */
+    .journey-timeline {
+      position: relative;
+      padding-left: 24px;
+      margin-top: 16px;
+    }
+
+    .journey-timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--primary), #a855f7);
+      opacity: 0.3;
+    }
+
+    .journey-point {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .journey-point:last-child {
+      margin-bottom: 0;
+    }
+
+    .journey-point::before {
+      content: '';
+      position: absolute;
+      left: -21px;
+      top: 6px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--bg-color);
+      border: 2px solid var(--primary-light);
+      z-index: 1;
+    }
+    
+    .journey-point:nth-child(2)::before { border-color: #34d399; }
+    .journey-point:nth-child(3)::before { border-color: #fbbf24; }
+    .journey-point:nth-child(4)::before { border-color: #a855f7; }
+
+    .journey-title {
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
   </style>
 </head>
 <body>
@@ -238,8 +306,10 @@
     <div class="info-header">
       <h1 class="name">老铁</h1>
       <div class="badges-container">
-        <span class="badge age-badge">42 岁</span>
-        <span class="badge profession-badge">Fintech Lending</span>
+        <span class="badge age-badge">中年男子</span>
+        <span class="badge profession-badge">Fintech</span>
+        <span class="badge hobby-badge">运动读书</span>
+        <span class="badge travel-badge">铁锭 (每年飞行>20万公里)</span>
       </div>
     </div>
 
@@ -262,6 +332,24 @@
           <span class="hobby-icon">🏢</span> 研究企业传记
         </li>
       </ul>
+    </div>
+
+    <div class="details-section" style="margin-top: 32px;">
+      <h2 class="section-title">人生轨迹</h2>
+      <div class="journey-timeline">
+        <div class="journey-point">
+          <div class="journey-title"><span class="hobby-icon" style="font-size:1.3rem;">🌲</span> 林场</div>
+        </div>
+        <div class="journey-point">
+          <div class="journey-title"><span class="hobby-icon" style="font-size:1.3rem;">🌾</span> 大米</div>
+        </div>
+        <div class="journey-point">
+          <div class="journey-title"><span class="hobby-icon" style="font-size:1.3rem;">🛢️</span> 石油</div>
+        </div>
+        <div class="journey-point">
+          <div class="journey-title"><span class="hobby-icon" style="font-size:1.3rem;">🏙️</span> 大上海</div>
+        </div>
+      </div>
     </div>
 
     <div class="details-section" style="margin-top: 24px;">
